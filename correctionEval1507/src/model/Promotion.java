@@ -87,8 +87,10 @@ public class Promotion {
 	public void setListLearner(ArrayList<Learner> listLearner) {
 		this.listLearner = listLearner;
 	}
+	
+	//modifié pour affichage dans nos interfaces graphiques
 	public String toString() {
-		return"C'est la formation "+name+"\nElle commence le "+startingDate+"\nLa durée totale de la formation est "+totalDuration+"\nLa durée passée de la formation est "+ pastDuration+"\nLa liste des apprenants est :"+listLearner.toString();
+		return"formation "+name;
 	}
 
 }

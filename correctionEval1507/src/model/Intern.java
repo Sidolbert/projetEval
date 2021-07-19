@@ -31,12 +31,12 @@ public class Intern extends Learner {
 		this.allowanceAmount = allowanceAmount;
 	}
 
-	@Override
-	public String toString() {
-		String s = super.toString();
-		s += "\n" + this.allowanceType + " : " + this.allowanceAmount + "\n";
-		return s;
-	}
+//	@Override
+//	public String toString() {
+//		String s = super.toString();
+//		s += "\n" + this.allowanceType + " : " + this.allowanceAmount + "\n";
+//		return s;
+//	}
 	
 	
 	
