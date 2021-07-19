@@ -11,7 +11,7 @@ public class Promotion {
 	protected int pastDuration; //en nombre de jurs
 	protected ArrayList<Learner> listLearner; 
 	
-	Promotion(String name, int totalDuration, LocalDate startingDate, ArrayList<Learner> listLearner){
+	public Promotion(String name, int totalDuration, LocalDate startingDate, ArrayList<Learner> listLearner){
 		this.name = name;
 		this.totalDuration = totalDuration;
 		this.startingDate = startingDate;
@@ -40,7 +40,7 @@ public class Promotion {
 		return learner.checkAbsences(this);
 	}
 	
-	//méthode listant les apprenants de la promotion qui ont trop de retard
+	//méthode listant les apprenants de la promotion qui ont trop d'absences
 		public ArrayList<Learner> AbsentLearnerList(){
 			ArrayList<Learner> absentList = new ArrayList<Learner>();
 			for(Learner l : this.listLearner) {

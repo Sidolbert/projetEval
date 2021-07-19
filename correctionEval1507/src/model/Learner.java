@@ -145,7 +145,7 @@ public abstract class Learner {
 
 
 	public String toString() {
-		return"\n\nLe nom de l'apprenant est "+firstName+" "+lastName+"\nSa date d'inscription est "+inscriptionDate +"\nSon numéro de téléphone est "+tel+"\nSon adresse mail est "+mail+"\nSon entreprise est "+company+ "\n"/*Les jours d'absence sont "+absences+" "+verifAbsences()+"\nLa durée du retard est "+retard+" "+verifRetard()*/;
+		return"\n\nLe nom de l'apprenant est "+firstName+" "+lastName+"\nSa date d'inscription est "+inscriptionDate +"\nSon numéro de téléphone est "+tel+"\nSon adresse mail est "+mail+"\nSon entreprise est "+company;
 	}
 	
 }

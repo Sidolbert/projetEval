@@ -30,6 +30,15 @@ public class Intern extends Learner {
 	public void setAllowanceAmount(double allowanceAmount) {
 		this.allowanceAmount = allowanceAmount;
 	}
+
+	@Override
+	public String toString() {
+		String s = super.toString();
+		s += "\n" + this.allowanceType + " : " + this.allowanceAmount + "\n";
+		return s;
+	}
+	
+	
 	
 	
 

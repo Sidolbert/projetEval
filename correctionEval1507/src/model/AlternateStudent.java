@@ -21,6 +21,12 @@ public class AlternateStudent extends Learner {
 		this.salary = salary;
 	}
 	
+	@Override
+	public String toString() {
+		String s = super.toString();
+		s += "\nSalaire : " + this.salary + "\n";
+		return s;
+	}
 	
 
 }
