@@ -17,7 +17,7 @@ public class Application {
 		AlternateStudent altS1 = new AlternateStudent("Sonia","Chaigne", LocalDate.now() , "0685647291", "Sonia.chaigne@gmail.com", "Atos",1250.2);
 		AlternateStudent altS2 = new AlternateStudent("Emilien","Beton", LocalDate.now() , "0764568952", "0764568952", "Amadeus",1500.1);
 		Promotion promo1 = new Promotion("Java4", 75, LocalDate.now(), new ArrayList<Learner>(Arrays.asList(intern1, intern2, intern3)));
-		Promotion promo2 = new Promotion("CDA3", 75, LocalDate.now(), new ArrayList<Learner>(Arrays.asList(altS1, altS2)));
+		Promotion promo2 = new Promotion("CDA3", 100, LocalDate.now(), new ArrayList<Learner>(Arrays.asList(altS1, altS2)));
 //		System.out.println(intern1);
 //		System.out.println(altS1);
 //		System.out.println(promo1);

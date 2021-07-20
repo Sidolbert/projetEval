@@ -1,10 +1,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -26,13 +29,23 @@ public class AppWindow extends JFrame {
 		//on remplit promoPanel
 		//la combobox permet de choisir une promotion parmi celles enregistrées
 		JComboBox<Promotion> promoBox = new JComboBox<Promotion>(new Vector<Promotion>(listePromo));
+		//on ajoute un listener 
+		promoBox.addActionListener((e)->{
+			
+			this.promoDisplay(promoPanel);
+			this.paintComponents(getGraphics());
+			
+		}); 
+			
+
 		promoPanel.add(promoBox);
 		JPanel promoInfo = new JPanel(new GridLayout(4, 2));
 		JLabel nameL = new JLabel("Nom de la promotion");
 		promoInfo.add(nameL);
 		//on récupère la Promotion sélectionnée dans la combobox et on affiche son nom dans le label
+		//on accède à la combobox en tant que premier élément du panel promoPanel, et on cast pour pouvoir utiliser sa méthode getSelectedItem()  
 		//le cast en Promotion de promoBox.getSelectedItem() retourné en Object nous permet d'avoir accès aux fonctions de l'objet Promotion
-		Promotion p = (Promotion)promoBox.getSelectedItem();
+		Promotion p = (Promotion)((JComboBox)(promoPanel.getComponent(0))).getSelectedItem();
 		JLabel nameData = new JLabel(p.getName());
 		promoInfo.add(nameData);
 		JLabel totalDurationL = new JLabel("Durée totale en jours");
@@ -51,7 +64,9 @@ public class AppWindow extends JFrame {
 		JList<Learner> promoLearnerList = new JList<Learner>(new Vector<Learner>(p.getListLearner()));
 		//sélection dans la liste limitée à un seul élément à la fois
 		promoLearnerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		promoPanel.add(promoLearnerList);
+		//au cas où la liste deviendrait grande : barre de défilement
+		JScrollPane promoLearnerListScrolling = new JScrollPane(promoLearnerList);
+		promoPanel.add(promoLearnerListScrolling);
 		JButton learnerDisplay = new JButton("Afficher l'apprenant sélectionné");
 		promoPanel.add(learnerDisplay);
 		
@@ -64,32 +79,29 @@ public class AppWindow extends JFrame {
 		this.getContentPane().add(promoPanel);
 		this.getContentPane().add(learnerPanel);
 		
+	}
+	
+	//on factorise le code affichant les infos de promo et la JList d'apprenants
+	public void promoDisplay(JPanel promoPanel) {
+		//on récupère la Promotion sélectionnée dans la combobox et on affiche son nom dans le label
+		//on accède à la combobox en tant que premier élément du panel promoPanel, et on cast pour pouvoir utiliser sa méthode getSelectedItem()  
+		//le cast en Promotion de promoBox.getSelectedItem() retourné en Object nous permet d'avoir accès aux fonctions de l'objet Promotion
+		Promotion p = (Promotion)((JComboBox)(promoPanel.getComponent(0))).getSelectedItem();
+		//déclaration d'une variable représentant le panel d'information, pour accès plus rapide
+		//on le récupère depuis son parent avec getComponent(ind index)
+		JPanel promoInfo = (JPanel)promoPanel.getComponent(1);
+		//on récupère le nom de la promo sélectionnée et on le stocke dans le label
+		((JLabel)(promoInfo.getComponent(1))).setText(p.getName());
+		//on récupère la durée totale de la promo sélectionnée et on la stocke dans le label
+		((JLabel)(promoInfo.getComponent(3))).setText(Integer.toString(p.getTotalDuration()));
+		//on récupère la date de départ de la promo sélectionnée et on la stocke dans le label
+		((JLabel)(promoInfo.getComponent(5))).setText(p.getStartingDate().toString());
+		//on récupère la durée totale de la promo sélectionnée et on la stocke dans le label
+		((JLabel)(promoInfo.getComponent(7))).setText(Integer.toString(p.getPastDuration()));
+		//on récupère la JList depuis le JScrollPane et son viewPort
+		JList learnerList = (JList)(((JScrollPane)(promoPanel.getComponent(2))).getViewport().getView());
+		learnerList.setListData(new Vector<Learner>(p.getListLearner()));
 		
-//		JLabel label = new JLabel("Bienvenue sur GestionPromo !");
-//		label.setFont(new Font("Calibri", Font.BOLD, 35));
-//		label.setHorizontalAlignment(SwingConstants.CENTER);
-//		this.getContentPane().add(label, BorderLayout.NORTH); //ne pas oublier d'ajouter les éléments créés !
-//		
-//		JPanel panel = new JPanel(new GridLayout(2, 2));
-//		JComboBox promoBox = new JComboBox(new Vector(listePromo));
-//		panel.add(promoBox);
-//		JButton promoButton = new JButton("Afficher promotion");
-//		panel.add(promoButton);
-//		
-//		//listener : quand on clique sur le bouton, on récupère la promotion selectionnée dans la combobox et on va l'afficher dans une nouvelle fenêtre
-//		promoButton.addActionListener((e)->{new PromoWindow((Promotion)promoBox.getSelectedItem());});
-//		
-//		Vector<Learner> learnerList = new Vector<Learner>();
-//		//pour chaque promotion : on ajoute les apprenants de sa liste au vecteur learnerList
-//		for (Promotion p : listePromo) {
-//			learnerList.addAll(p.getListLearner());
-//		}
-//		JComboBox learnerBox = new JComboBox(learnerList);
-//		panel.add(learnerBox);
-//		JButton learnerButton = new JButton("Afficher apprenant");
-//		panel.add(learnerButton);
-//		
-//		this.getContentPane().add(panel);
 	}
 
 }
