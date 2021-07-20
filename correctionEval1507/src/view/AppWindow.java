@@ -16,6 +16,8 @@ import javax.swing.*;
 import model.*;
 
 public class AppWindow extends JFrame {
+	
+	private JList<Learner> promoLearnerList;
 
 	public AppWindow(ArrayList<Promotion> listePromo) {
 		//on construit la fenêtre et on la configure
@@ -61,7 +63,7 @@ public class AppWindow extends JFrame {
 		JLabel pastDurationData = new JLabel(Integer.toString(p.getPastDuration()));
 		promoInfo.add(pastDurationData);
 		promoPanel.add(promoInfo);
-		JList<Learner> promoLearnerList = new JList<Learner>(new Vector<Learner>(p.getListLearner()));
+		/*JList<Learner>*/ promoLearnerList = new JList<Learner>(new Vector<Learner>(p.getListLearner()));
 		//sélection dans la liste limitée à un seul élément à la fois
 		promoLearnerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		//au cas où la liste deviendrait grande : barre de défilement
@@ -70,7 +72,21 @@ public class AppWindow extends JFrame {
 		JButton learnerDisplay = new JButton("Afficher l'apprenant sélectionné");
 		promoPanel.add(learnerDisplay);
 		
-		JPanel learnerPanel = new JPanel();
+		JPanel learnerPanel = new JPanel(new GridLayout(11, 2));
+		
+		learnerPanel.add(new JLabel("Prénom : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("Nom : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("Date d'inscription : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("Tel : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("Mail : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("Société : "));
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel("  "));
 		
 		//le layout nous permet de gérer comment les éléments vont se placer les uns par rapport aux autres
 		this.getContentPane().setLayout(new GridLayout(1, 3));
@@ -98,9 +114,14 @@ public class AppWindow extends JFrame {
 		((JLabel)(promoInfo.getComponent(5))).setText(p.getStartingDate().toString());
 		//on récupère la durée totale de la promo sélectionnée et on la stocke dans le label
 		((JLabel)(promoInfo.getComponent(7))).setText(Integer.toString(p.getPastDuration()));
+		
 		//on récupère la JList depuis le JScrollPane et son viewPort
-		JList learnerList = (JList)(((JScrollPane)(promoPanel.getComponent(2))).getViewport().getView());
-		learnerList.setListData(new Vector<Learner>(p.getListLearner()));
+		//JList learnerList = (JList)(((JScrollPane)(promoPanel.getComponent(2))).getViewport().getView());
+		//learnerList.setListData(new Vector<Learner>(p.getListLearner()));
+		
+		//ou sinon on la met simplement en attribut (c'est moins sécurisé mais c'est beaucoup plus facile d'accès)
+		this.promoLearnerList.setListData(new Vector<Learner>(p.getListLearner()));
+		
 		
 	}
 
