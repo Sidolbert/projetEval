@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -18,6 +19,7 @@ import model.*;
 public class AppWindow extends JFrame {
 	
 	private JList<Learner> promoLearnerList;
+	private JList<LocalDate> learnerAbsenceList;
 
 	public AppWindow(ArrayList<Promotion> listePromo) {
 		//on construit la fenêtre et on la configure
@@ -70,6 +72,7 @@ public class AppWindow extends JFrame {
 		JScrollPane promoLearnerListScrolling = new JScrollPane(promoLearnerList);
 		promoPanel.add(promoLearnerListScrolling);
 		JButton learnerDisplay = new JButton("Afficher l'apprenant sélectionné");
+		
 		promoPanel.add(learnerDisplay);
 		
 		JPanel learnerPanel = new JPanel(new GridLayout(11, 2));
@@ -86,7 +89,28 @@ public class AppWindow extends JFrame {
 		learnerPanel.add(new JLabel());
 		learnerPanel.add(new JLabel("Société : "));
 		learnerPanel.add(new JLabel());
-		learnerPanel.add(new JLabel("  "));
+		learnerPanel.add(new JLabel("Jours d'absence "));
+		learnerAbsenceList = new JList<LocalDate>();
+		learnerPanel.add(learnerAbsenceList);
+		learnerPanel.add(new JLabel("Retard total : "));
+		learnerPanel.add(new JLabel());
+		//composants qu'on va modifier selon les différents types d'apprenant
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel());
+		learnerPanel.add(new JLabel());
+		
+		learnerDisplay.addActionListener((e)->{
+			if(!promoLearnerList.isSelectionEmpty()) {
+				Learner selectedLearner = promoLearnerList.getSelectedValue();
+				this.learnerPanelDisplay(learnerPanel, selectedLearner);
+			}
+		});
+		//version simple avec les mêmes champs pour tous les apprenants, on va faire une version plus dynamique
+//		learnerPanel.add(new JLabel("Revenu : "));
+//		learnerPanel.add(new JLabel());
+//		learnerPanel.add(new JLabel("Montant : "));
+//		learnerPanel.add(new JLabel());
 		
 		//le layout nous permet de gérer comment les éléments vont se placer les uns par rapport aux autres
 		this.getContentPane().setLayout(new GridLayout(1, 3));
@@ -122,6 +146,30 @@ public class AppWindow extends JFrame {
 		//ou sinon on la met simplement en attribut (c'est moins sécurisé mais c'est beaucoup plus facile d'accès)
 		this.promoLearnerList.setListData(new Vector<Learner>(p.getListLearner()));
 		
+		
+	}
+	
+	public void learnerPanelDisplay(JPanel learnerPanel, Learner selectedLearner) {
+		((JLabel)learnerPanel.getComponent(1)).setText(selectedLearner.getFirstName());
+		((JLabel)learnerPanel.getComponent(3)).setText(selectedLearner.getLastName());
+		((JLabel)learnerPanel.getComponent(5)).setText(selectedLearner.getInscriptionDate().toString());
+		((JLabel)learnerPanel.getComponent(7)).setText(selectedLearner.getTel());
+		((JLabel)learnerPanel.getComponent(9)).setText(selectedLearner.getMail());
+		((JLabel)learnerPanel.getComponent(11)).setText(selectedLearner.getCompany());
+		this.learnerAbsenceList.setListData(new Vector<LocalDate>(selectedLearner.getAbsence()));
+		String delay = Integer.toString(selectedLearner.getDelay());
+		((JLabel)learnerPanel.getComponent(15)).setText(delay);
+		if(selectedLearner.getClass().getSimpleName().equals("Intern")) {
+			((JLabel)learnerPanel.getComponent(16)).setText("Type d'allocation : ");
+			((JLabel)learnerPanel.getComponent(17)).setText(((Intern)selectedLearner).getAllowanceType());
+			((JLabel)learnerPanel.getComponent(18)).setText("Montant de l'allocation : ");
+			((JLabel)learnerPanel.getComponent(19)).setText(Double.toString(((Intern)selectedLearner).getAllowanceAmount()));
+		}else if(selectedLearner.getClass().getSimpleName().equals("AlternateStudent")) {
+			((JLabel)learnerPanel.getComponent(16)).setText("Salaire : ");
+			((JLabel)learnerPanel.getComponent(17)).setText(Double.toString(((AlternateStudent)selectedLearner).getSalary()));
+			((JLabel)learnerPanel.getComponent(18)).setText(null);
+			((JLabel)learnerPanel.getComponent(19)).setText(null);
+		}
 		
 	}
 

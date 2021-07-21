@@ -12,6 +12,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		Intern intern1 = new Intern("Alex", "Dupont", LocalDate.now(), "0612342536", "Alex.dupont@gmail.com", "pôle emploi", "ARE", 1200);
+		intern1.setAbsence(new ArrayList<LocalDate>(Arrays.asList(LocalDate.now())));
 		Intern intern2 = new Intern("Alicia","Ledore", LocalDate.now() , "0612278936", "Alicia.ledore@gmail.com", "pôle emploi","allocation de formation" ,685.5);
 		Intern intern3 = new Intern("Ambroise","Dupont", LocalDate.now() , "0789875254", "Ambroise.dupont@gmail.com", "pôle emploi","ARE" ,1200);
 		AlternateStudent altS1 = new AlternateStudent("Sonia","Chaigne", LocalDate.now() , "0685647291", "Sonia.chaigne@gmail.com", "Atos",1250.2);
