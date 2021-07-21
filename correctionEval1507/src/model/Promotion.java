@@ -41,7 +41,7 @@ public class Promotion {
 	}
 	
 	//méthode listant les apprenants de la promotion qui ont trop d'absences
-		public ArrayList<Learner> AbsentLearnerList(){
+		public ArrayList<Learner> absentLearnerList(){
 			ArrayList<Learner> absentList = new ArrayList<Learner>();
 			for(Learner l : this.listLearner) {
 				if (checkAbsenceLearner(l)) {

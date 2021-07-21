@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
@@ -27,7 +28,7 @@ public class AppWindow extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Welcome to GestionPromo");
 		//on crée les différents panels avec lesquels on va travailler
-		JPanel checkPanel = new JPanel();
+		JPanel checkPanel = new JPanel(new GridLayout(3,1));
 		
 		JPanel promoPanel = new JPanel(new GridLayout(4, 1));
 		//on remplit promoPanel
@@ -119,6 +120,18 @@ public class AppWindow extends JFrame {
 		this.getContentPane().add(promoPanel);
 		this.getContentPane().add(learnerPanel);
 		
+		//checkPanel : le grand titre de l'appli + deux zones pour afficher retards et absences de tous les apprenants
+		JPanel titlePanel = new JPanel();
+		JLabel titleLabel = new JLabel("Bienvenue sur GestionPromo !");
+		titleLabel.setFont(new Font("Mv Boli", Font.BOLD, 30));
+		titlePanel.add(titleLabel);
+		checkPanel.add(titlePanel);
+		JPanel delayPanel = new JPanel();
+		this.displayLateOrAbsence(delayPanel, listePromo, true);
+		checkPanel.add(delayPanel);
+		JPanel absencePanel = new JPanel();
+		this.displayLateOrAbsence(absencePanel, listePromo, false);
+		checkPanel.add(absencePanel);
 	}
 	
 	//on factorise le code affichant les infos de promo et la JList d'apprenants
@@ -172,5 +185,35 @@ public class AppWindow extends JFrame {
 		}
 		
 	}
+	
+	//fonction affichant les apprenants en retard ou absents
+	// check = true -> retards, false -> absences
+	public void displayLateOrAbsence(JPanel delayPanel, ArrayList<Promotion> listePromo, boolean check) {
+		JList delayList = new JList();
+		
+		ArrayList<Learner> lateList = new ArrayList();
+		for(Promotion promo : listePromo) {
+			if(check) {
+				lateList.addAll(promo.lateLearnerList());
+			}else {
+				lateList.addAll(promo.absentLearnerList());
+			}	
+		}
+		delayList.setListData(new Vector(lateList));
+		if(lateList.size() > 0) {
+			JLabel lateAlert;
+			if(check) {
+				lateAlert = new JLabel("APPRENANTS EN RETARD !");
+			}else {
+				lateAlert = new JLabel("APPRENANTS ABSENTS !");
+			}	
+			
+			lateAlert.setForeground(Color.RED);
+			delayPanel.add(lateAlert);
+		}
+		JScrollPane delayListScroll = new JScrollPane(delayList);
+		delayPanel.add(delayListScroll);
+	}
+	
 
 }
